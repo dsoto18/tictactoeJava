@@ -3,6 +3,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class App {
+    static {
+        System.out.println("Changes to new branch.");
+    }
     public static void main(String[] args) throws Exception {
 
         displayInstructions();
