@@ -45,6 +45,7 @@ public class App {
 
             gameBoard = placePiece(gameBoard, position, "user");
             chosenSpots[position - 1] = 1;
+            System.out.println();
             displayBoard(gameBoard);
 
             System.out.println("CPU turn...\n");
@@ -77,6 +78,7 @@ public class App {
 
                 chosenSpots[position - 1] = 1;
                 gameBoard = placePiece(gameBoard, position, "user");
+                System.out.println();
                 displayBoard(gameBoard);
 
                 checkObj = checkForWinner(gameBoard);
@@ -86,7 +88,7 @@ public class App {
                 }
 
                 if(fullGameBoard(chosenSpots) == true){
-                    System.out.println("The result is a draw! Try again!");
+                    System.out.println("The result is a draw! Try again!\n");
                     int tempscore = winRecords.get("Draw");
                     winRecords.put("Draw", tempscore + 1);
                     break;
@@ -107,7 +109,7 @@ public class App {
                 continueGame = checkObj.getCheck();
 
                 if(fullGameBoard(chosenSpots) == true){
-                    System.out.println("The result is a draw! Try again!");
+                    System.out.println("The result is a draw! Try again!\n");
                     int tempscore = winRecords.get("Draw");
                     winRecords.put("Draw", tempscore + 1);
                     break;
@@ -115,11 +117,11 @@ public class App {
             }
 
             if(checkObj.getSymb() == 'X'){
-                System.out.println("Congratulations, you won!");
+                System.out.println("Congratulations, you won!\n");
                 int tempscore = winRecords.get("User");
                 winRecords.put("User", tempscore + 1);
             } else if(checkObj.getSymb() == 'O') {
-                System.out.println("The CPU won! Try again!");
+                System.out.println("The CPU won! Try again!\n");
                 int tempscore = winRecords.get("CPU");
                 winRecords.put("CPU", tempscore + 1);
             }
@@ -145,7 +147,7 @@ public class App {
         System.out.println("The first turn will be yours, then the cpu, then the game continues back and forth.");
         System.out.println("You are required to enter an integer value from 1 through 9, to enter your mark in the corresponding space.");
         System.out.println("The first player to successfully connect 3 of their marks in a row, either vertically, horizontally, or diagonally, wins.");
-        System.out.println("Good luck!");
+        System.out.println("Good luck!\n");
     }
 
     public static void displayBoard(char[][] gameBoard){
@@ -274,7 +276,7 @@ public class App {
         System.out.println("User: " + inputMap.get("User") + " wins");
         System.out.println("CPU:  " + inputMap.get("CPU") + " wins");
         System.out.println(inputMap.get("Draw") + " draws");
-        System.out.println("------------------");
+        System.out.println("------------------\n");
 
     }
 }
