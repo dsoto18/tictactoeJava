@@ -4,9 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class App {
-    static {
-        System.out.println("Changes to new branch.");
-    }
     public static void main(String[] args) throws Exception {
 
         HashMap<String, Integer> winRecords = new HashMap<String, Integer>();
@@ -138,15 +135,16 @@ public class App {
 
     public static void displayInstructions(){
         System.out.println("Hello, welcome to Tic Tac Toe in Java!");
-        System.out.println("The board and board spaces appear as the following: ");
+        System.out.println("The board and board spaces appear as the following: \n");
         System.out.println("1 | 2 | 3");
         System.out.println("- + - + -");
         System.out.println("4 | 5 | 6");
         System.out.println("- + - + -");
-        System.out.println("7 | 8 | 9");
+        System.out.println("7 | 8 | 9\n");
         System.out.println("The first turn will be yours, then the cpu, then the game continues back and forth.");
+        System.out.println("Your marker will be the X, while the CPU will use O.");
         System.out.println("You are required to enter an integer value from 1 through 9, to enter your mark in the corresponding space.");
-        System.out.println("The first player to successfully connect 3 of their marks in a row, either vertically, horizontally, or diagonally, wins.");
+        System.out.println("The first player to successfully connect 3 of their markers in a row, either vertically, horizontally, or diagonally, wins.");
         System.out.println("Good luck!\n");
     }
 
