@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,99 +9,128 @@ public class App {
     }
     public static void main(String[] args) throws Exception {
 
-        displayInstructions();
-
-        char[][] gameBoard = {
-            {' ', '|', ' ', '|', ' '},
-            {'-', '+', '-', '+', '-'},
-            {' ', '|', ' ', '|', ' '},
-            {'-', '+', '-', '+', '-'},
-            {' ', '|', ' ', '|', ' '}
-        };    
-
-        int[] chosenSpots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        HashMap<String, Integer> winRecords = new HashMap<String, Integer>();
+        winRecords.put("User", 0);
+        winRecords.put("CPU", 0);
+        winRecords.put("Draw", 0);
 
         Scanner keyboard = new Scanner(System.in);
+        displayInstructions();
 
-        System.out.println("Please enter which spot you would like to insert your piece (1-9): ");
-        int position = keyboard.nextInt();
-        while(position < 1 || position > 9){
-            System.out.println("Please enter a value from 1 through 9: ");
-            position = keyboard.nextInt();
-        }
+        System.out.println("Ready to play!? Enter anything to begin, 0 to exit: ");
+        String answer = keyboard.next();
 
-        gameBoard = placePiece(gameBoard, position, "user");
-        chosenSpots[position - 1] = 1;
-        displayBoard(gameBoard);
+        while(!answer.equals("0")){
 
-        System.out.println("CPU turn...\n");
+            char[][] gameBoard = {
+                {' ', '|', ' ', '|', ' '},
+                {'-', '+', '-', '+', '-'},
+                {' ', '|', ' ', '|', ' '},
+                {'-', '+', '-', '+', '-'},
+                {' ', '|', ' ', '|', ' '}
+            };    
 
-        Random ram = new Random();
-        int cpuPosition = ram.nextInt(9) + 1;
-        while(chosenSpots[cpuPosition - 1] == 1){
-            cpuPosition = ram.nextInt(9) + 1;
-        }
-        chosenSpots[cpuPosition - 1] = 1;
-        gameBoard = placePiece(gameBoard, cpuPosition, "cpu");
-        displayBoard(gameBoard);
+            int[] chosenSpots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        boolean continueGame = false;
-        winnerReturnObject checkObj = new winnerReturnObject(false, ' ');
+        
 
-        while(continueGame == false){
+        
+
             System.out.println("Please enter which spot you would like to insert your piece (1-9): ");
-            position = keyboard.nextInt();
-
-            while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
-                if(position < 1 || position > 9){
-                    System.out.println("Please enter a value from 1 through 9: ");
-                    position = keyboard.nextInt();
-                } else if(chosenSpots[position - 1] == 1){
-                    System.out.println("That spot is already marked, please choose another one: ");
-                    position = keyboard.nextInt();
-                }
+            int position = keyboard.nextInt();
+            while(position < 1 || position > 9){
+                System.out.println("Please enter a value from 1 through 9: ");
+                position = keyboard.nextInt();
             }
 
-            chosenSpots[position - 1] = 1;
             gameBoard = placePiece(gameBoard, position, "user");
+            chosenSpots[position - 1] = 1;
             displayBoard(gameBoard);
-
-            checkObj = checkForWinner(gameBoard);
-            continueGame = checkObj.getCheck();
-            if(continueGame == true){
-                break; // ends game if user connects 3 marks before cpu move
-            }
-
-            if(fullGameBoard(chosenSpots) == true){
-                System.out.println("The result is a draw! Try again!");
-                break;
-            }
 
             System.out.println("CPU turn...\n");
 
-            cpuPosition = ram.nextInt(9) + 1;
+            Random ram = new Random();
+            int cpuPosition = ram.nextInt(9) + 1;
             while(chosenSpots[cpuPosition - 1] == 1){
                 cpuPosition = ram.nextInt(9) + 1;
-                //System.out.println("Another round");
             }
             chosenSpots[cpuPosition - 1] = 1;
             gameBoard = placePiece(gameBoard, cpuPosition, "cpu");
             displayBoard(gameBoard);
 
-            checkObj = checkForWinner(gameBoard);
-            continueGame = checkObj.getCheck();
+            boolean continueGame = false;
+            winnerReturnObject checkObj = new winnerReturnObject(false, ' ');
 
-            if(fullGameBoard(chosenSpots) == true){
-                System.out.println("The result is a draw! Try again!");
-                break;
+            while(continueGame == false){
+                System.out.println("Please enter which spot you would like to insert your piece (1-9): ");
+                position = keyboard.nextInt();
+
+                while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
+                    if(position < 1 || position > 9){
+                        System.out.println("Please enter a value from 1 through 9: ");
+                        position = keyboard.nextInt();
+                    } else if(chosenSpots[position - 1] == 1){
+                        System.out.println("That spot is already marked, please choose another one: ");
+                        position = keyboard.nextInt();
+                    }
+                }
+
+                chosenSpots[position - 1] = 1;
+                gameBoard = placePiece(gameBoard, position, "user");
+                displayBoard(gameBoard);
+
+                checkObj = checkForWinner(gameBoard);
+                continueGame = checkObj.getCheck();
+                if(continueGame == true){
+                    break; // ends game if user connects 3 marks before cpu move
+                }
+
+                if(fullGameBoard(chosenSpots) == true){
+                    System.out.println("The result is a draw! Try again!");
+                    int tempscore = winRecords.get("Draw");
+                    winRecords.put("Draw", tempscore + 1);
+                    break;
+                }
+
+                System.out.println("CPU turn...\n");
+
+                cpuPosition = ram.nextInt(9) + 1;
+                while(chosenSpots[cpuPosition - 1] == 1){
+                    cpuPosition = ram.nextInt(9) + 1;
+                    //System.out.println("Another round");
+                }
+                chosenSpots[cpuPosition - 1] = 1;
+                gameBoard = placePiece(gameBoard, cpuPosition, "cpu");
+                displayBoard(gameBoard);
+
+                checkObj = checkForWinner(gameBoard);
+                continueGame = checkObj.getCheck();
+
+                if(fullGameBoard(chosenSpots) == true){
+                    System.out.println("The result is a draw! Try again!");
+                    int tempscore = winRecords.get("Draw");
+                    winRecords.put("Draw", tempscore + 1);
+                    break;
+                }
             }
+
+            if(checkObj.getSymb() == 'X'){
+                System.out.println("Congratulations, you won!");
+                int tempscore = winRecords.get("User");
+                winRecords.put("User", tempscore + 1);
+            } else if(checkObj.getSymb() == 'O') {
+                System.out.println("The CPU won! Try again!");
+                int tempscore = winRecords.get("CPU");
+                winRecords.put("CPU", tempscore + 1);
+            }
+
+            displayScore(winRecords);
+
+            System.out.println("Play again? Anything for yes, 0 to exit: ");
+            answer = keyboard.next();
         }
 
-        if(checkObj.getSymb() == 'X'){
-            System.out.println("Congratulations, you won!");
-        } else if(checkObj.getSymb() == 'O') {
-            System.out.println("The CPU won! Try again!");
-        }
+        System.out.println("Thanks for playing!");
         
     }
 
@@ -236,5 +266,15 @@ public class App {
         }
 
         return result;
+    }
+
+    public static void displayScore(HashMap<String, Integer> inputMap){
+
+        System.out.println("----- SCORES -----");
+        System.out.println("User: " + inputMap.get("User") + " wins");
+        System.out.println("CPU:  " + inputMap.get("CPU") + " wins");
+        System.out.println(inputMap.get("Draw") + " draws");
+        System.out.println("------------------");
+
     }
 }
