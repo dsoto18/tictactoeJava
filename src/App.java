@@ -14,10 +14,10 @@ public class App {
         Scanner keyboard = new Scanner(System.in);
         displayInstructions();
 
-        System.out.println("Ready to play!? Enter anything to begin, 0 to exit: ");
-        String answer = keyboard.next();
+        System.out.println("Ready to play!? Enter Y to begin, anything else to exit: ");
+        String answer = keyboard.nextLine();
 
-        while(!answer.equals("0")){
+        while(answer.equals("Y") || answer.equals("y")){
 
             char[][] gameBoard = {
                 {' ', '|', ' ', '|', ' '},
@@ -29,16 +29,31 @@ public class App {
 
             int[] chosenSpots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        
-
-        
-
             System.out.println("Please enter which spot you would like to insert your piece (1-9): ");
-            int position = keyboard.nextInt();
-            while(position < 1 || position > 9){
-                System.out.println("Please enter a value from 1 through 9: ");
-                position = keyboard.nextInt();
+            int position = 1;
+            boolean done = false;
+
+            while(done == false ) {
+                try{
+                    position = keyboard.nextInt();
+                    while(position < 1 || position > 9){
+                        System.out.println("Please enter a value from 1 through 9: ");
+                        position = keyboard.nextInt();                
+                    }
+                    keyboard.nextLine();
+                    done = true;
+                    System.out.println(done);
+                } catch(Exception InputMismatchException) {
+                    System.out.println("That was not a number! Enter another value: ");
+                    keyboard.nextLine();
+                }
             }
+            
+            
+            // while(position < 1 || position > 9){
+            //     System.out.println("Please enter a value from 1 through 9: ");
+            //     position = keyboard.nextInt();                
+            // }
 
             gameBoard = placePiece(gameBoard, position, "user");
             chosenSpots[position - 1] = 1;
@@ -61,17 +76,43 @@ public class App {
 
             while(continueGame == false){
                 System.out.println("Please enter which spot you would like to insert your piece (1-9): ");
-                position = keyboard.nextInt();
+                //--------------------------
 
-                while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
-                    if(position < 1 || position > 9){
-                        System.out.println("Please enter a value from 1 through 9: ");
+                done = false;
+                while(done == false ) {
+                    try{
                         position = keyboard.nextInt();
-                    } else if(chosenSpots[position - 1] == 1){
-                        System.out.println("That spot is already marked, please choose another one: ");
-                        position = keyboard.nextInt();
+                        while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
+                            if(position < 1 || position > 9){
+                                System.out.println("Please enter a value from 1 through 9: ");
+                                position = keyboard.nextInt();
+                            } else if(chosenSpots[position - 1] == 1){
+                                System.out.println("That spot is already marked, please choose another one: ");
+                                position = keyboard.nextInt();
+                            }               
+                        }
+                        keyboard.nextLine();
+                        done = true;
+                        System.out.println(done);
+                    } catch(Exception InputMismatchException) {
+                        System.out.println("That was not a number! Enter another value: ");
+                        keyboard.nextLine();
                     }
                 }
+
+
+                //--------------------------
+                // position = keyboard.nextInt();
+
+                // while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
+                //     if(position < 1 || position > 9){
+                //         System.out.println("Please enter a value from 1 through 9: ");
+                //         position = keyboard.nextInt();
+                //     } else if(chosenSpots[position - 1] == 1){
+                //         System.out.println("That spot is already marked, please choose another one: ");
+                //         position = keyboard.nextInt();
+                //     }
+                // }
 
                 chosenSpots[position - 1] = 1;
                 gameBoard = placePiece(gameBoard, position, "user");
@@ -125,8 +166,9 @@ public class App {
 
             displayScore(winRecords);
 
-            System.out.println("Play again? Anything for yes, 0 to exit: ");
-            answer = keyboard.next();
+            System.out.println("Play again? Enter Y to begin, anything else to exit: ");
+            //keyboard.nextLine();
+            answer = keyboard.nextLine(); 
         }
 
         System.out.println("Thanks for playing!");
