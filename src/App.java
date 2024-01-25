@@ -48,12 +48,6 @@ public class App {
                     keyboard.nextLine();
                 }
             }
-            
-            
-            // while(position < 1 || position > 9){
-            //     System.out.println("Please enter a value from 1 through 9: ");
-            //     position = keyboard.nextInt();                
-            // }
 
             gameBoard = placePiece(gameBoard, position, "user");
             chosenSpots[position - 1] = 1;
@@ -99,20 +93,6 @@ public class App {
                         keyboard.nextLine();
                     }
                 }
-
-
-                //--------------------------
-                // position = keyboard.nextInt();
-
-                // while((position < 1 || position > 9) || (chosenSpots[position - 1] == 1)){
-                //     if(position < 1 || position > 9){
-                //         System.out.println("Please enter a value from 1 through 9: ");
-                //         position = keyboard.nextInt();
-                //     } else if(chosenSpots[position - 1] == 1){
-                //         System.out.println("That spot is already marked, please choose another one: ");
-                //         position = keyboard.nextInt();
-                //     }
-                // }
 
                 chosenSpots[position - 1] = 1;
                 gameBoard = placePiece(gameBoard, position, "user");
